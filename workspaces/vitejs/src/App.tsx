@@ -6,12 +6,12 @@ import Box from '@mui/material/Box';
 import ProTip from './ProTip';
 import Copyright from './Copyright';
 
-import { isValidSchema } from '@common/schemas'
-import { FooSchema, Foo }  from '@common/schemas/schema-sample'
+import { isValidSchema } from '@common/schemas';
+import { FooSchema, Foo } from '@common/schemas/schema-sample';
 
 export default function App() {
-  const a: Foo = { username: 'Johny' }
-  const b = { username: 'Joseph', email: 'hogefuga@example.com' }
+  const a: Foo = { username: 'Johny' };
+  const b = { username: 'Joseph', email: 'hogefuga@example.com' };
   if (!isValidSchema(b, FooSchema)) return null;
   return (
     <Container maxWidth="sm">
@@ -23,10 +23,12 @@ export default function App() {
         <Copyright />
       </Box>
       <Box>
-        <div css={css({
-          color: 'red',
-          fontWeight: 'bold',
-        })}>
+        <div
+          css={css({
+            color: 'red',
+            fontWeight: 'bold',
+          })}
+        >
           username: {a.username}
         </div>
       </Box>
