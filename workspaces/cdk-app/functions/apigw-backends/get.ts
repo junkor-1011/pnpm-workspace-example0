@@ -13,7 +13,7 @@ import { assertBySchema } from '@common/schemas';
 const url = 'http://checkip.amazonaws.com';
 
 export const lambdaHandler = async (
-  _event: APIGatewayProxyEvent,
+  event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
   let response: APIGatewayProxyResult;
 
