@@ -4,6 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import { CdkAppStack } from '../lib/cdk-app-stack';
 
 const app = new cdk.App();
+// eslint-disable-next-line no-new
 new CdkAppStack(app, 'CdkAppStack', {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,

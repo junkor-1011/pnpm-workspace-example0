@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 import React from 'react';
 import { css } from '@emotion/react';
 import Container from '@mui/material/Container';
@@ -8,22 +12,24 @@ import useSWR, { Fetcher } from 'swr';
 import ProTip from './ProTip';
 import Copyright from './Copyright';
 
-import { isValidSchema, assertBySchema } from '@common/schemas';
-import { FooSchema, Foo } from '@common/schemas/schema-sample';
+import { assertBySchema } from '@common/schemas';
 import {
   DummyGetResponse,
   DummyPostResponse,
   DummyPostResponseSchema,
 } from '@common/schemas/api/models';
 
-export default function App() {
+const App: React.FC = () => {
   const fetcher: Fetcher<DummyGetResponse, string> = React.useCallback(
-    (url) => fetch(url).then((r) => r.json()),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    async (url) => await fetch(url).then(async (r) => await r.json()),
     [],
   );
-  const { data, error } = useSWR<DummyGetResponse>('http://localhost:3000', (url) =>
-    fetch(url).then((r) => r.json()),
-  );
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    data,
+    // error,
+  } = useSWR<DummyGetResponse>('http://localhost:3000', fetcher);
 
   const [resValue, setResValue] = React.useState<string>('');
 
@@ -59,12 +65,12 @@ export default function App() {
                   user: 'from client',
                 }),
               })
-                .then((r) => r.json())
+                .then(async (r) => await r.json() as unknown)
                 .then((data) => {
                   assertBySchema(data, DummyPostResponseSchema);
                   return data;
                 })
-                .then((data) => {
+                .then((data: DummyPostResponse) => {
                   console.log(data);
                   setResValue(data.message);
                 })
@@ -93,3 +99,4 @@ export default function App() {
     </Container>
   );
 }
+export default  App;

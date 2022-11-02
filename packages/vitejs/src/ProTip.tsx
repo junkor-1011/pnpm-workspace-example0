@@ -12,7 +12,7 @@ const LightBulbIcon: React.FC<SvgIconProps> = (props) => {
   );
 };
 
-export default function ProTip() {
+const ProTip: React.FC = () => {
   return (
     <Typography sx={{ mt: 6, mb: 3 }} color="text.secondary">
       <LightBulbIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
@@ -21,3 +21,4 @@ export default function ProTip() {
     </Typography>
   );
 }
+export default ProTip

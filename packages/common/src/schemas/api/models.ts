@@ -17,7 +17,7 @@ export const DummyPostResponseSchema = z.object({
   // date: z.date().optional(),
   date: z
     .preprocess((arg) => {
-      if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
+      if (typeof arg === 'string' || arg instanceof Date) return new Date(arg);
       return arg;
     }, z.date())
     .optional(),
