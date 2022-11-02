@@ -1,14 +1,13 @@
 import 'source-map-support/register';
 
-import axios, { AxiosResponse } from 'axios';
 import type {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
   // APIGatewayProxyEventHeaders,
 } from 'aws-lambda';
 
-import { DummyGetResponseSchema } from '@common/schemas/api/models';
-import { assertBySchema } from '@common/schemas';
+import { DummyPostRequestSchema, DummyPostResponseSchema } from '@common/schemas/api/models';
+import { isValidSchema, assertBySchema } from '@common/schemas';
 
 const url = 'http://checkip.amazonaws.com';
 
@@ -17,16 +16,26 @@ export const lambdaHandler = async (
 ): Promise<APIGatewayProxyResult> => {
   let response: APIGatewayProxyResult;
 
+  const reqBody = JSON.parse(event.body || '');
+  if (!isValidSchema(reqBody, DummyPostRequestSchema)) {
+    console.debug(reqBody);
+    return {
+      statusCode: 421,
+      body: JSON.stringify({
+        message: 'invalid request',
+      }),
+      headers: {
+        'Access-Control-Allow-Origin': 'http://localhost:5173',
+      },
+    };
+  }
+
   try {
-    /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */
-    const myUrlData: AxiosResponse<string> = await axios(url);
-    const myUrl = myUrlData.data.trim();
     const resBody = {
-      message: 'hello world',
-      ipv4: myUrl,
+      message: `POST test, hello: ${reqBody.user}`,
       date: new Date(),
     };
-    assertBySchema(resBody, DummyGetResponseSchema);
+    assertBySchema(resBody, DummyPostResponseSchema);
 
     response = {
       statusCode: 200,
